@@ -1,7 +1,7 @@
 # name: discourse-orphan
 # about: Orphan post fix
-# version: 0.1
-# authors: gary
+# version: 0.2
+# authors: builders-toronto
 
 after_initialize do
     register_html_builder('server:before-body-close') do |attrs|
@@ -9,7 +9,7 @@ after_initialize do
         .includes(:topic)
         .where("posts.deleted_at IS NULL")
         .order("RANDOM()")
-        .limit(10)
+        .limit(30)
         .to_a
   
       if random_posts.blank?
@@ -17,7 +17,7 @@ after_initialize do
       else
         html_output = <<~HTML
           <noscript>
-            <div>
+            <div class="wrap">
               <h4 style="margin-top:0;">Latest Posts</h4>
               <ul style="margin: 0; padding-left: 20px;">
         HTML
